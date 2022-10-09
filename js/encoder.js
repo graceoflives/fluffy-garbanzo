@@ -8,6 +8,9 @@ var encoder = {
         if ($('#saveGameType').val() == 'zlib') {
             output = encoder.encode_zlib(JSON.stringify(obj));
         }
+        else if ($('#saveGameType').val() == 'deflate') {
+            output = encoder.encode_deflate(JSON.stringify(obj));
+        }
         else {
             output = encoder.encode_base64(JSON.stringify(obj));
         }
@@ -26,6 +29,14 @@ var encoder = {
         var compressedData = pako.deflate(data, {to: 'string'});
         var output = header + btoa(compressedData);
         return output;
+    },
+
+    encode_deflate: function(data) {
+        var header = '7e8bb5a89f2842ac4af01b3b7e228592';
+        var pako = window.pako;
+        var compressedData = pako.deflateRaw(data, {to: 'string'});
+        var output = header + btoa(compressedData);
+        return output
     },
 
     getHash: function(string) {
