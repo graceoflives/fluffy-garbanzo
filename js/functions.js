@@ -630,7 +630,10 @@ function compute(x) {
                     ancient[i].OptimalLevel = f.pow(0.8).ceil();
                     break;
                 case "32": //Nogardnit
-                    ancient[i].OptimalLevel = s.pow(0.8).ceil();
+                    if ($("#wep8k").prop("checked"))
+                        ancient[i].OptimalLevel = s.times(0.905).pow(0.8).ceil();
+                    else
+                        ancient[i].OptimalLevel = s.times(0.926).pow(0.8).ceil();
                     break;
             }
         }
