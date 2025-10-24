@@ -519,11 +519,20 @@ function showOutsider() {
 }
 
 function compute(x) {
-    var HPscale = Decimal(1.14).plus(ascZone.div(500).ceil().times(0.005));
-    if ($("#wep8k").prop("checked"))
-        var alpha = Decimal(1.1085).times(Decimal.ln(calcTranscendentPower().plus(1))).div(Decimal.ln(HPscale));
-    else
+    var HPscale =
+        ascZone.lt(141) ? Decimal(1.55) :
+        ascZone.lt(501) ? Decimal(1.145) :
+        ascZone.lt(200001) ? Decimal(1.145).plus(ascZone.div(500).floor().times(0.001)) : Decimal(1.545);
+
+    var bestHero = $("#bestHero").val();
+    if (bestHero == "base") {
         var alpha = Decimal(1.4067).times(Decimal.ln(calcTranscendentPower().plus(1))).div(Decimal.ln(HPscale));
+    } else if (bestHero == "e9") {
+        var alpha = Decimal(1.1085).times(Decimal.ln(calcTranscendentPower().plus(1))).div(Decimal.ln(HPscale));
+    } else {
+        var alpha = Decimal(1.8053).times(Decimal.ln(calcTranscendentPower().plus(1))).div(Decimal.ln(HPscale));
+    }
+
     var playStyle = $("#playstyleSelect").val();
     var s, f, m;
     switch (playStyle) {
@@ -572,26 +581,38 @@ function compute(x) {
         if (ancient[i].Level.gt(0) && (ancient[i].Visible == "true")) {
             switch (i) {
                 case "4": //Libertas
-                    if ($("#wep8k").prop("checked"))
-                        ancient[i].OptimalLevel = s.times(0.905).ceil();
+                    if (bestHero == "base")
+                        ancient[i].OptimalLevel = s.times(0.9262).ceil();
+                    else if (bestHero == "e9")
+                        ancient[i].OptimalLevel = s.times(0.9053).ceil();
+                    else if (bestHero == "e10")
+                        ancient[i].OptimalLevel = s.times(0.943).ceil();
                     else
-                        ancient[i].OptimalLevel = s.times(0.926).ceil();
+                        ancient[i].OptimalLevel = s.times(1.1788).ceil();
                     break;
                 case "8": //Mammon
                 case "9": //Mimzee
-                    if ($("#wep8k").prop("checked"))
-                        ancient[i].OptimalLevel = m.times(0.905).ceil();
+                    if (bestHero == "base")
+                        ancient[i].OptimalLevel = m.times(0.9262).ceil();
+                    else if (bestHero == "e9")
+                        ancient[i].OptimalLevel = m.times(0.9053).ceil();
+                    else if (bestHero == "e10")
+                        ancient[i].OptimalLevel = m.times(0.943).ceil();
                     else
-                        ancient[i].OptimalLevel = m.times(0.926).ceil();
+                        ancient[i].OptimalLevel = m.times(1.1788).ceil();
                     break;
                 case "5": //Siyalatas
                     ancient[i].OptimalLevel = s;
                     break;
                 case "10": //Pluto
-                    if ($("#wep8k").prop("checked"))
-                        ancient[i].OptimalLevel = f.times(0.905).ceil();
+                    if (bestHero == "base")
+                        ancient[i].OptimalLevel = f.times(0.9262).ceil();
+                    else if (bestHero == "e9")
+                        ancient[i].OptimalLevel = f.times(0.9053).ceil();
+                    else if (bestHero == "e10")
+                        ancient[i].OptimalLevel = f.times(0.943).ceil();
                     else
-                        ancient[i].OptimalLevel = f.times(0.926).ceil();
+                        ancient[i].OptimalLevel = f.times(1.1788).ceil();
                     break;
                 case "11": //Dogcog
                     ancient[i].OptimalLevel = getDogcogLevel(m);
@@ -630,10 +651,14 @@ function compute(x) {
                     ancient[i].OptimalLevel = f.pow(0.8).ceil();
                     break;
                 case "32": //Nogardnit
-                    if ($("#wep8k").prop("checked"))
-                        ancient[i].OptimalLevel = s.times(0.905).pow(0.8).ceil();
+                    if (bestHero == "base")
+                        ancient[i].OptimalLevel = s.times(0.9262).pow(0.8).ceil();
+                    else if (bestHero == "e9")
+                        ancient[i].OptimalLevel = s.times(0.9053).pow(0.8).ceil();
+                    else if (bestHero == "e10")
+                        ancient[i].OptimalLevel = s.times(0.943).pow(0.8).ceil();
                     else
-                        ancient[i].OptimalLevel = s.times(0.926).pow(0.8).ceil();
+                        ancient[i].OptimalLevel = s.times(1.1788).pow(0.8).ceil();
                     break;
             }
         }
@@ -922,7 +947,7 @@ $(document).ready(function() {
         if (isSaveLoaded)
             optimizeAncient();
     });
-    $("#hybridRatio, #wep8k").on("change", function() {
+    $("#hybridRatio, #bestHero").on("change", function() {
         ratio = Decimal($("#hybridRatio").val());
         if (isSaveLoaded)
             optimizeAncient();
