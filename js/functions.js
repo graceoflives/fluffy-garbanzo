@@ -651,14 +651,7 @@ function compute(x) {
                     ancient[i].OptimalLevel = f.pow(0.8).ceil();
                     break;
                 case "32": //Nogardnit
-                    if (bestHero == "base")
-                        ancient[i].OptimalLevel = s.times(0.9262).pow(0.8).ceil();
-                    else if (bestHero == "e9")
-                        ancient[i].OptimalLevel = s.times(0.9053).pow(0.8).ceil();
-                    else if (bestHero == "e10")
-                        ancient[i].OptimalLevel = s.times(0.943).pow(0.8).ceil();
-                    else
-                        ancient[i].OptimalLevel = s.times(1.1788).pow(0.8).ceil();
+                    ancient[i].OptimalLevel = s.pow(0.8).ceil();
                     break;
             }
         }
